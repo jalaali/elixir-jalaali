@@ -9,13 +9,13 @@ defmodule Jalali do
   """
   @spec to_gregorian(DateTime.t) :: DateTime.t
   def to_gregorian(datetime) do
-
+    Timex.add(datetime, Timex.Duration.from_days(226899))
   end
 
   @doc """
   Converts a gregorian date to its equivalent in jalali calendar
   """
   def to_jalali(datetime) do
-
+    Timex.add(datetime, Timex.Duration.from_days(-226899))
   end
 end
