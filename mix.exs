@@ -7,7 +7,10 @@ defmodule Jalaali.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     description: description(),
+     package: package(),
+     deps: deps(),
+    ]
   end
 
   # Configuration for the OTP application
@@ -27,6 +30,26 @@ defmodule Jalaali.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:ex_doc, "~> 0.14", only: :dev},
+      {:earmark, "~> 1.0", only: :dev}
+    ]
+  end
+
+  defp description do
+    """
+    Elixir implementation of [jalaali.js](https://github.com/jalaali/jalaali-js) which contains functions for converting Jalaali and Gregorian calendar systems to each other.
+    """
+  end
+
+  defp package do
+    [
+     name: :jalaali,
+     files: ["lib", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+     maintainers: ["Alisina Bahadori"],
+     licenses: ["MIT"],
+     links: %{"GitHub" => "https://github.com/alisinabh/jalaali",
+              "Docs" => "http://alisinabh.github.io/jalaali/"}
+    ]
   end
 end
