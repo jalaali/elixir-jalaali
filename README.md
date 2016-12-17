@@ -1,24 +1,23 @@
-# Jalali
+# Elixir Jalaali calendar
 
-**TODO: Add description**
+Elixir implementation of [jalaali.js](https://github.com/jalaali/jalaali-js) which contains functions for converting Jalaali and Gregorian calendar systems to each other.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+You can install `jalaali` by:
 
-  1. Add `jalali` to your list of dependencies in `mix.exs`:
+  1. Addding `jalaali` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:jalali, "~> 0.1.0"}]
+      [{:jalaali, "~> 0.1.0"}]
     end
     ```
 
-  2. Ensure `jalali` is started before your application:
+  2. Ensuring `jalaali` is started before your application:
 
     ```elixir
     def application do
-      [applications: [:jalali]]
+      [applications: [:jalaali]]
     end
     ```
-
