@@ -45,7 +45,7 @@ defmodule Jalaali.Mixfile do
   defp package do
     [
      name: :jalaali,
-     files: ["lib", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+     files: ["lib", "mix.exs", "README*", "LICENSE*"],
      maintainers: ["Alisina Bahadori"],
      licenses: ["MIT"],
      links: %{"GitHub" => "https://github.com/alisinabh/elixir-jalaali",
