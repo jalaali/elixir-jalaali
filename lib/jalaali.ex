@@ -3,14 +3,14 @@ defmodule Jalaali do
   Jalaali module helps converting gregorian dates to jalaali dates.
   Jalaali calendar is widely used in Persia and Afganistan.
 
-  This module helps you with converting erlang and/or elixir DateTime formats to Jalaali date and vice versa
+  This module helps you with converting erlang and/or elixir DateTime formats to Jalaali date (and vice versa) and checking for leap years
   """
 
   @doc """
-  Converts an erlang date to Jalaali date in erlang format
+  Converts an erlang date from Gregorian to Jalaali date in erlang format
 
   ## Parameters
-    - arg1: Date in erlang format (a tuple with three elements)
+    - arg1: Date to convert in erlang format (a tuple with three elements)
 
   ## Exmaples
     iex> Jalaali.to_jalaali {2016, 12, 17}
@@ -22,10 +22,10 @@ defmodule Jalaali do
   end
 
   @doc """
-  Converts an erlang dateTime to Jalaali dateTime in erlang format
+  Converts an erlang dateTime from Gregorian to Jalaali dateTime in erlang format
 
   ## Parameters
-    - arg1: Date in erlang format (a tuple with three elements)
+    - arg1: erlang dateTime to convert in erlang format (a tuple with two difftent tuples each with 3 elements)
 
   ## Exmaples
     iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
@@ -37,47 +37,127 @@ defmodule Jalaali do
   end
 
   @doc """
-  Converts an erlang dateTime to Jalaali dateTime in erlang format
+  Converts and elixir Date or DateTime from Gregorian to Jalaali in elixir Date or DateTime format
 
   ## Parameters
-    - arg1: Date in erlang format (a tuple with three elements)
+    - ex_dt: Date or DateTime to convert
+
+  ## Exmaples
+    iex> Jalaali.to_jalaali ~D[2016-12-17]
+    ~D[1395-09-27]
+  """
+  @spec to_jalaali(DateTime.t | Date.t) :: DateTime.t | Date.t
+  def to_jalaali(ex_dt) do
+    {jy, jm, jd} = to_jalaali({ex_dt.year, ex_dt.month, ex_dt.day})
+    %{ex_dt | year: jy, month: jm, day: jd}
+  end
+
+  @doc """
+  Converts an erlang date from Jalaali to Gregorian date in erlang format
+
+  ## Parameters
+    - arg1: Date to convert in erlang format (a tuple with three elements)
+
+  ## Exmaples
+    iex> Jalaali.to_gregorian {1395, 9, 27}
+    {2016, 12, 17}
+  """
+  @spec to_gregorian(Tuple.t) :: Tuple.t
+  def to_gregorian({jy, jm, jd}) do
+    d2g(j2d({jy, jm, jd}))
+  end
+
+  @doc """
+  Converts an erlang date from Jalaali to Gregorian date in erlang format
+
+  ## Parameters
+    - arg1: Date to convert in erlang format (a tuple with three elements)
 
   ## Exmaples
     iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
     {{1395, 9, 27}, {11, 11, 11}}
   """
-  @spec to_jalaali(DateTime.t | Date.t) :: DateTime.t | Date.t
-  def to_jalaali(ex_dt) do
-
-    {jy, jm, jd} = to_jalaali({ex_dt.year, ex_dt.month, ex_dt.day})
-    %{ex_dt | year: jy, month: jm, day: jd}
-  end
-
-  def to_gregorian({jy, jm, jd}) do
-    d2g(j2d({jy, jm, jd}))
-  end
-
+  @spec to_gregorian(Tuple.t) :: Tuple.t
   def to_gregorian({date, time}) do
     {to_gregorian(date), time}
   end
 
+  @doc """
+  Converts and elixir Date or DateTime from Gregorian to Jalaali in elixir Date or DateTime format
+
+  ## Parameters
+    - ex_dt: Date or DateTime to convert
+
+  ## Exmaples
+    iex> Jalaali.to_gregorian ~D[1395-09-27]
+    ~D[2016-12-17]
+  """
+  @spec to_jalaali(DateTime.t | Date.t) :: DateTime.t | Date.t
   def to_gregorian(ex_dt) do
     {gy, gm, gd} = to_gregorian({ex_dt.year, ex_dt.month, ex_dt.day})
     %{ex_dt | year: gy, month: gm, day: gd}
   end
 
-  def is_valid_jalali_date({jy, jm, jd}) do
-    year_is_valid = (-61 <= jy <= 3177)
-    month_is_valid = (1 <= jm <= 12)
-    day_is_valid = (1 <= jd <= Jalaali.jalaali_month_length(jy, jm))
+  @doc """
+  Checks whether a Jalaali date is valid or not.
+
+  ## Parameters
+    - arg1: is a tuple in shape of {jalaali_year, jalaali_month, jalaali_day}
+
+  ## Examples
+    iex> Jalaali.is_valid_jalaali_date {1395, 9, 27}
+    true
+
+    iex> Jalaali.is_valid_jalaali_date {1395, 91, 27}
+    false
+  """
+  @spec is_valid_jalaali_date(Tuple.t) :: boolean()
+  def is_valid_jalaali_date({jy, jm, jd}) do
+    year_is_valid = jy <= 3177 && -61 <= jy
+    month_is_valid = 1 <= jm && jm <= 12
+    day_is_valid = 1 <= jd && jd <= Jalaali.jalaali_month_length(jy, jm)
 
     year_is_valid && month_is_valid && day_is_valid
   end
 
+  @doc """
+  Checks if a Jalaali year is leap
+
+  ## Parameters
+    - jy: Jalaali Year (-61 to 3177)
+
+  ## Examples
+    iex> Jalaali.is_leap_jalaali_year(1395)
+    true
+
+    iex> Jalaali.is_leap_jalaali_year(1396)
+    false
+
+    iex> Jalaali.is_leap_jalaali_year(1394)
+    false
+  """
+  @spec is_leap_jalaali_year(Integer.t) :: boolean()
   def is_leap_jalaali_year(jy) do
     jal_cal(jy).leap == 0
   end
 
+  @doc """
+  Number of days in a given month in a Jalaali year.
+
+  ## Examples
+    iex> Jalaali.jalaali_month_length(1395, 11)
+    30
+
+    iex> Jalaali.jalaali_month_length(1395, 6)
+    31
+
+    iex> Jalaali.jalaali_month_length(1394, 12)
+    29
+
+    iex> Jalaali.jalaali_month_length(1395, 12)
+    30
+  """
+  @spec jalaali_month_length(Integer.t, Integer.t) :: Integer.t
   def jalaali_month_length(jy, jm) do
     cond do
       jm <= 6 -> 31
@@ -87,7 +167,15 @@ defmodule Jalaali do
     end
   end
 
-  defp jal_cal(jy) do
+  @doc """
+  This function determines if the Jalaali (persian) year is leap(366-day long) or is the common year (365-days),
+  and finds the day in March (Gregorian calendar) of the first day of the Jalaali year (jy).
+
+  ## Parameters
+    - jy: Jalaali Year (-61 to 3177)
+  """
+  @spec jal_cal(Integer.t) :: Map.t
+  def jal_cal(jy) do
     breaks = [-61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210, 1635, 2060, 2097, 2192, 2262, 2324,
                   2394, 2456,
                   3178]
@@ -130,6 +218,7 @@ defmodule Jalaali do
     %{leap: leap, gy: gy, march: march}
   end
 
+  @spec calc_jlimit(List.t, Integer.t, {Integer.t, Integer.t}, Integer.t) :: {Integer.t, Integer.t, Integer.t}
   defp calc_jlimit(breaks, jy, {jp, leap_j}, index) do
     jm = Enum.at(breaks, index)
     jump = jm - jp
@@ -141,11 +230,13 @@ defmodule Jalaali do
     end
   end
 
+  @spec j2d({Integer.t, Integer.t, Integer.t}) :: Integer.t
   defp j2d({jy, jm, jd}) do
     r = jal_cal(jy)
     g2d({r.gy, 3, r.march}) + (jm - 1) * 31 - div(jm, 7) * (jm - 7) + jd - 1
   end
 
+  @spec d2j(Integer.t) :: {Integer.t, Integer.t, Integer.t}
   defp d2j(jdn) do
     gy = elem(d2g(jdn), 0)  # calculate gregorian year (gy)
     jy = gy - 621
@@ -178,11 +269,13 @@ defmodule Jalaali do
     end
   end
 
+  @spec g2d({Integer.t, Integer.t, Integer.t}) :: Integer.d
   defp g2d({gy, gm, gd}) do
     d = div((gy + div(gm - 8, 6) + 100100) * 1461, 4) + div(153 * mod(gm + 9, 12) + 2, 5) + gd - 34840408
     d - div(div(gy + 100100 + div(gm - 8, 6), 100) * 3, 4) + 752
   end
 
+  @spec d2g(Integer.t) :: {Integer.t, Integer.t, Integer.t}
   defp d2g(jdn) do
     j = 4 * jdn + 139361631 + div(div(4 * jdn + 183187720, 146097) * 3, 4) * 4 - 3908
     i = div(mod(j, 1461), 4) * 5 + 308
@@ -192,6 +285,7 @@ defmodule Jalaali do
     {gy, gm, gd}
   end
 
+  @spec mod(Integer.t, Integer.t) :: Integer.t
   defp mod(a, b) do
     a - div(a, b) * b
   end
