@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :jalali, key: :value
+#     config :jalaali, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:jalali, :key)
+#     Application.get_env(:jalaali, :key)
 #
 # Or configure a 3rd-party app:
 #
