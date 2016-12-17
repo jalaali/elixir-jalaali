@@ -49,7 +49,7 @@ defmodule Jalaali.Mixfile do
      maintainers: ["Alisina Bahadori"],
      licenses: ["MIT"],
      links: %{"GitHub" => "https://github.com/alisinabh/elixir-jalaali",
-              "Docs" => "http://alisinabh.github.io/jalaali/"}
+              "Docs" => "http://alisinabh.github.io/elixir-jalaali/"}
     ]
   end
 end
