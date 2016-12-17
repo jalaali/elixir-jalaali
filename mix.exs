@@ -1,8 +1,8 @@
-defmodule Jalali.Mixfile do
+defmodule Jalaali.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :jalali,
+    [app: :jalaali,
      version: "0.1.0",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
@@ -14,7 +14,7 @@ defmodule Jalali.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :timex]]
+    [applications: [:logger]]
   end
 
   # Dependencies can be Hex packages:
@@ -27,6 +27,6 @@ defmodule Jalali.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:timex, "~> 3.0"}]
+    []
   end
 end
