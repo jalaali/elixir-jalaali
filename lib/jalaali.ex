@@ -92,7 +92,7 @@ defmodule Jalaali do
     iex> Jalaali.to_gregorian ~D[1395-09-27]
     ~D[2016-12-17]
   """
-  @spec to_jalaali(DateTime.t | Date.t) :: DateTime.t | Date.t
+  @spec to_gregorian(DateTime.t | Date.t) :: DateTime.t | Date.t
   def to_gregorian(ex_dt) do
     {gy, gm, gd} = to_gregorian({ex_dt.year, ex_dt.month, ex_dt.day})
     %{ex_dt | year: gy, month: gm, day: gd}
