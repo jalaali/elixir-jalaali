@@ -1,5 +1,5 @@
 # Elixir Jalaali calendar
-[![Build Status](https://travis-ci.org/jalaali/elixir-jalaali.svg?branch=master)](https://travis-ci.org/jalaali/elixir-jalaali)
+[![Build Status](https://travis-ci.org/jalaali/elixir-jalaali.svg?branch=master)](https://travis-ci.org/jalaali/elixir-jalaali) [![Coverage Status](https://coveralls.io/repos/github/jalaali/elixir-jalaali/badge.svg?branch=master)](https://coveralls.io/github/jalaali/elixir-jalaali?branch=master)
 
 Elixir implementation of [jalaali.js](https://github.com/jalaali/jalaali-js) which contains functions for converting Jalaali and Gregorian calendar systems to each other.
 
