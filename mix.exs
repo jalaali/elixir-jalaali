@@ -3,7 +3,7 @@ defmodule Jalaali.Mixfile do
 
   def project do
     [app: :jalaali,
-     version: "0.1.0",
+     version: "0.1.1",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -38,7 +38,7 @@ defmodule Jalaali.Mixfile do
 
   defp description do
     """
-    Elixir implementation of [jalaali.js](https://github.com/jalaali/jalaali-js) which contains functions for converting Jalaali and Gregorian calendar systems to each other.
+    A Jalaali (Jalali, Persian, Khorshidi, Shamsi) calendar system implemention for Elixir.
     """
   end
 
@@ -48,8 +48,7 @@ defmodule Jalaali.Mixfile do
      files: ["lib", "mix.exs", "README*", "LICENSE*"],
      maintainers: ["Alisina Bahadori"],
      licenses: ["MIT"],
-     links: %{"GitHub" => "https://github.com/alisinabh/elixir-jalaali",
-              "Docs" => "http://alisinabh.github.io/elixir-jalaali/"}
+     links: %{"GitHub" => "https://github.com/jalaali/elixir-jalaali"}
     ]
   end
 end
