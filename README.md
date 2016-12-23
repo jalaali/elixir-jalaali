@@ -11,7 +11,7 @@ You can install `jalaali` by:
 
     ```elixir
     def deps do
-      [{:jalaali, "~> 0.1.0"}]
+      [{:jalaali, "~> 0.1.1"}]
     end
     ```
 
