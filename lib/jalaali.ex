@@ -168,6 +168,22 @@ defmodule Jalaali do
   end
 
   @doc """
+  Converts jalaali date to days number
+  """
+  @spec jalaali_to_days(Integer.t, Integer.t, Integer.t) :: Integer.t
+  def jalaali_to_days(jy, jm, jd) do
+    j2d({jy, jm, jd})
+  end
+
+  @doc """
+  Converts days number to jalaali date
+  """
+  @spec function_name(Integer.t) :: {Integer.t, Integer.t, Integer.t}
+  def days_to_jalaali(days) do
+    d2j(days)
+  end
+
+  @doc """
   This function determines if the Jalaali (persian) year is leap(366-day long) or is the common year (365-days),
   and finds the day in March (Gregorian calendar) of the first day of the Jalaali year (jy).
 
