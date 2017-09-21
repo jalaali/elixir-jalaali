@@ -1,15 +1,21 @@
 defmodule Jalaali.Mixfile do
   use Mix.Project
 
+  @version "0.2.0"
+
   def project do
     [app: :jalaali,
-     version: "0.1.1",
+     version: @version,
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      description: description(),
      package: package(),
      deps: deps(),
+     docs: [source_ref: "v#{@version}", main: "README",
+            canonical: "http://hexdocs.pm/jalaali",
+            source_url: "https://github.com/jalaali/elixir-jalaali",
+            extras: ["README.md"]]
     ]
   end
 
@@ -45,7 +51,7 @@ defmodule Jalaali.Mixfile do
   defp package do
     [
      name: :jalaali,
-     files: ["lib", "mix.exs", "README*", "LICENSE*"],
+     files: ["lib", "mix.exs", "README*", "LICENSE"],
      maintainers: ["Alisina Bahadori"],
      licenses: ["MIT"],
      links: %{"GitHub" => "https://github.com/jalaali/elixir-jalaali"}
