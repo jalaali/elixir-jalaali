@@ -6,6 +6,8 @@ defmodule Jalaali do
   This module helps you with converting erlang and/or elixir DateTime formats to Jalaali date (and vice versa) and checking for leap years
   """
 
+  @days_offset 1721060
+
   @doc """
   Converts an erlang date from Gregorian to Jalaali date in erlang format
 
@@ -112,12 +114,22 @@ defmodule Jalaali do
     false
   """
   @spec is_valid_jalaali_date(Tuple.t) :: boolean()
-  def is_valid_jalaali_date({jy, jm, jd}) do
+  def is_valid_jalaali_date?({jy, jm, jd}) do
     year_is_valid = jy <= 3177 && -61 <= jy
     month_is_valid = 1 <= jm && jm <= 12
     day_is_valid = 1 <= jd && jd <= Jalaali.jalaali_month_length(jy, jm)
 
     year_is_valid && month_is_valid && day_is_valid
+  end
+
+  @doc """
+  This function is same as `is_valid_jalaali_date?` and is only here
+  because i forgot to add question mark in `jalaali <= 0.1.1`
+
+  Please use `is_valid_jalaali_date?` instead.
+  """
+  def is_valid_jalaali_date(jdate) do
+    is_valid_jalaali_date?(jdate)
   end
 
   @doc """
@@ -172,15 +184,15 @@ defmodule Jalaali do
   """
   @spec jalaali_to_days(Integer.t, Integer.t, Integer.t) :: Integer.t
   def jalaali_to_days(jy, jm, jd) do
-    j2d({jy, jm, jd})
+    j2d({jy, jm, jd}) - @days_offset
   end
 
   @doc """
   Converts days number to jalaali date
   """
-  @spec function_name(Integer.t) :: {Integer.t, Integer.t, Integer.t}
+  @spec days_to_jalaali(Integer.t) :: {Integer.t, Integer.t, Integer.t}
   def days_to_jalaali(days) do
-    d2j(days)
+    d2j(days + @days_offset)
   end
 
   @doc """
