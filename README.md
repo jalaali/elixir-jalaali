@@ -7,11 +7,11 @@ Elixir implementation of [jalaali.js](https://github.com/jalaali/jalaali-js) whi
 
 You can install `jalaali` by Addding it to your list of dependencies in `mix.exs`:
 
-    ```elixir
-    def deps do
-      [{:jalaali, "~> 0.2.0"}]
-    end
-    ```
+```elixir
+def deps do
+  [{:jalaali, "~> 0.2.0"}]
+end
+```
 
 ## Usage (Elixir >= 1.5)
 
@@ -25,34 +25,34 @@ just copy those modules but its just better to migrate to 1.5**
 ### How to use
 
   - Creating new Date
-  ```elixir
-    Date.new(1396, 6, 30, Jalaali.Calendar)
-    {:ok, %Date{calendar: Jalaali.Calendar, day: 30, month: 6, year: 1396}}
-  ```
+```elixir
+  Date.new(1396, 6, 30, Jalaali.Calendar)
+  {:ok, %Date{calendar: Jalaali.Calendar, day: 30, month: 6, year: 1396}}
+```
 
   - Converting a DateTime to Jalaali
-  ```elixir
-    datetime_in_any_calendar = DateTime.utc_now(Calendar.ISO)
-    {:ok, jalaali_datetime} = DateTime.convert(datetime_in_any_calendar, Jalaali.Calendar)
-  ```
+```elixir
+  datetime_in_any_calendar = DateTime.utc_now(Calendar.ISO)
+  {:ok, jalaali_datetime} = DateTime.convert(datetime_in_any_calendar, Jalaali.Calendar)
+```
 
   - Converting a DateTime from Jalaali
-  ```elixir
-    jalaali_datetime = DateTime.utc_now(Calendar.Jalaali)
-    {:ok, iso_datetime} = DateTime.convert(jalaali_datetime, Calendar.ISO)
-  ```
+```elixir
+  jalaali_datetime = DateTime.utc_now(Calendar.Jalaali)
+  {:ok, iso_datetime} = DateTime.convert(jalaali_datetime, Calendar.ISO)
+```
 
   - Converting a Date to Jalaali
-  ```elixir
-    date_in_any_calendar = Date.new(2017, 1, 1, Calendar.ISO)
-    {:ok, jalaali_date} = Date.convert(date_in_any_calendar, Jalaali.Calendar)
-  ```
+```elixir
+  date_in_any_calendar = Date.new(2017, 1, 1, Calendar.ISO)
+  {:ok, jalaali_date} = Date.convert(date_in_any_calendar, Jalaali.Calendar)
+```
 
   - Converting a Date from Jalaali
-  ```elixir
-    {:ok, jalaali_date} = Date.utc_now(1396, 6, 30, Calendar.Jalaali)
-    {:ok, iso_date} = Date.convert(jalaali_date, Calendar.ISO)
-  ```
+```elixir
+  {:ok, jalaali_date} = Date.utc_now(1396, 6, 30, Calendar.Jalaali)
+  {:ok, iso_date} = Date.convert(jalaali_date, Calendar.ISO)
+```
 
   Thats super easy. :)
 
@@ -63,29 +63,29 @@ After installing jalaali package. you can use it for:
 
   - Converting Gregorian dates to Jalaali:
 
-  ```elixir
-    jal_date = Jalaali.to_jalaali(~D[2015-02-29])
-  ```
+```elixir
+  jal_date = Jalaali.to_jalaali(~D[2015-02-29])
+```
 
   - Converting Jalaali dates to Gregorian:
 
-  ```elixir
-    gre_date = Jalaali.to_gregorian(~D[1395-03-15])
-  ```
+```elixir
+  gre_date = Jalaali.to_gregorian(~D[1395-03-15])
+```
 
   - Checking for Jalaali leap years:
 
-  ```elixir
-    Jalaali.is_leap_jalaali_year(1395)
-    true
-  ```
+```elixir
+  Jalaali.is_leap_jalaali_year(1395)
+  true
+```
 
   - Get a Jalaali month lenght
 
-  ```elixir
-    Jalaali.jalaali_month_length(1395, 12)
-    30
-  ```
+```elixir
+  Jalaali.jalaali_month_length(1395, 12)
+  30
+```
 
 ## License
 
