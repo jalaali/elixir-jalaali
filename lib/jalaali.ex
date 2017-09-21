@@ -7,6 +7,8 @@ defmodule Jalaali do
   """
 
   @days_offset 1721060
+  @breaks [-61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210, 1635, 2060,
+          2097, 2192, 2262, 2324, 2394, 2456, 3178]
 
   @doc """
   Converts an erlang date from Gregorian to Jalaali date in erlang format
@@ -204,16 +206,13 @@ defmodule Jalaali do
   """
   @spec jal_cal(Integer.t) :: Map.t
   def jal_cal(jy) do
-    breaks = [-61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210, 1635, 2060, 2097, 2192, 2262, 2324,
-                  2394, 2456,
-                  3178]
     gy = jy + 621
 
     if jy < -61 or jy >= 3178 do
       raise "Invalid Jalaali year #{jy}"
     end
 
-    {jump, jp, leap_j} = calc_jlimit(breaks, jy, {Enum.at(breaks, 0), -14}, 1)
+    {jump, jp, leap_j} = calc_jlimit(jy, {Enum.at(@breaks, 0), -14}, 1)
 
     n = jy - jp
 
@@ -246,15 +245,15 @@ defmodule Jalaali do
     %{leap: leap, gy: gy, march: march}
   end
 
-  @spec calc_jlimit(List.t, Integer.t, {Integer.t, Integer.t}, Integer.t) :: {Integer.t, Integer.t, Integer.t}
-  defp calc_jlimit(breaks, jy, {jp, leap_j}, index) do
-    jm = Enum.at(breaks, index)
+  @spec calc_jlimit(Integer.t, {Integer.t, Integer.t}, Integer.t) :: {Integer.t, Integer.t, Integer.t}
+  defp calc_jlimit(jy, {jp, leap_j}, index) do
+    jm = Enum.at(@breaks, index)
     jump = jm - jp
     cond do
       jy < jm ->
         {jump, jp, leap_j}
       true ->
-        calc_jlimit(breaks, jy, {jm, leap_j + div(jump, 33) * 8 + div(mod(jump, 33), 4)}, index + 1)
+        calc_jlimit(jy, {jm, leap_j + div(jump, 33) * 8 + div(mod(jump, 33), 4)}, index + 1)
     end
   end
 
@@ -279,21 +278,21 @@ defmodule Jalaali do
 
         jm = 7 + div(k, 30)
         jd = mod(k, 30) + 1
-        {jy, jm, jd} # HACK: remove duplication
+        {jy, jm, jd}
       r.leap == 1 ->
         jy = jy - 1
         k = k + 180
 
         jm = 7 + div(k, 30)
         jd = mod(k, 30) + 1
-        {jy, jm, jd} # HACK: remove duplication
+        {jy, jm, jd}
       true ->
         jy = jy - 1
         k = k + 179
 
         jm = 7 + div(k, 30)
         jd = mod(k, 30) + 1
-        {jy, jm, jd} # HACK: remove duplication
+        {jy, jm, jd}
     end
   end
 

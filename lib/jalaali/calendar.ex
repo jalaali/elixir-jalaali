@@ -8,6 +8,11 @@ defmodule Jalaali.Calendar do
   @type year :: 0..9999
   @type month :: 1..12
   @type day :: 1..31
+  @type day_of_week :: 1..7
+  @type hour :: 0..23
+  @type minute :: 0..59
+  @type second :: 0..60
+  @type microsecond :: Integer.t
 
   @seconds_per_minute 60
   @seconds_per_hour 60 * 60
@@ -25,17 +30,32 @@ defmodule Jalaali.Calendar do
     Jalaali.is_leap_jalaali_year(year)
 
   @impl true
-  def day_of_week(year, month, day), do:
-    Calendar.ISO.day_of_week(year, month, day)
+  @spec day_of_week(year, month, day) :: day_of_week
+  @doc """
+  Returns day of week on a spesific set of year, month and day
+  """
+  def day_of_week(year, month, day) do
+    {:ok, date} = Date.new(year, month, day, __MODULE__)
+    iso_date = Date.convert!(date, Calendar.ISO)
+    Calendar.ISO.day_of_week(iso_date.year, iso_date.month, iso_date.day)
+  end
 
   @doc """
   Converts the given date into a string.
   """
   @impl true
+  @spec date_to_string(year, month, day) :: String.t
   def date_to_string(year, month, day) do
     zero_pad(year, 4) <> "-" <> zero_pad(month, 2) <> "-" <> zero_pad(day, 2)
   end
 
+  @doc """
+  Converts a Date struct to string human readable format
+
+   - Extended type of string date. e.g.: "2017-01-05" `:extended`
+   - Basic type of string date. e.g.: "20170105" `:basic`
+  """
+  @spec date_to_string(year, month, day, :extended | :basic) :: String.t
   def date_to_string(year, month, day, :extended), do:
     date_to_string(year, month, day)
 
@@ -44,15 +64,16 @@ defmodule Jalaali.Calendar do
   end
 
   @doc """
-  Converts the datetime (without time zone) into a string.
+  Converts the datetime (without time zone) into a human readable string.
   """
   @impl true
+  @spec naive_datetime_to_string(year, month, day, hour, minute, second, microsecond) :: String.t
   def naive_datetime_to_string(year, month, day, hour, minute, second, microsecond) do
    date_to_string(year, month, day) <> " " <> time_to_string(hour, minute, second, microsecond)
   end
 
   @doc """
-  Convers the datetime (with time zone) into a string.
+  Convers the datetime (with time zone) into a human readable string.
   """
   @impl true
   def datetime_to_string(year, month, day, hour, minute, second, microsecond,

@@ -56,4 +56,35 @@ defmodule JalaaliTest do
 
     assert gre_to_jal == now_jal
   end
+
+  test "Day number" do
+    now = DateTime.utc_now()
+    jal_now = DateTime.convert!(now, Jalaali.Calendar)
+
+    assert Date.day_of_week(now) == Date.day_of_week(jal_now)
+  end
+
+  test "Day number in hundred days" do
+    unix = DateTime.to_unix(DateTime.utc_now()) + 100 * 24 * 60 * 60
+
+    now = DateTime.from_unix!(unix)
+    jal_date = DateTime.convert!(now, Jalaali.Calendar)
+
+    assert Date.day_of_week(now) == Date.day_of_week(jal_date)
+  end
+
+  test "Day number in hundred days ago" do
+    unix = DateTime.to_unix(DateTime.utc_now()) - 100 * 24 * 60 * 60
+
+    now = DateTime.from_unix!(unix)
+    jal_date = DateTime.convert!(now, Jalaali.Calendar)
+
+    assert Date.day_of_week(now) == Date.day_of_week(jal_date)
+  end
+
+  test "Day number on a specific date" do
+    {:ok, now} = Date.new(1321, 7, 7, Jalaali.Calendar)
+
+    assert Date.day_of_week(now) == 2
+  end
 end
