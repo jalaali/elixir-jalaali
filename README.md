@@ -50,7 +50,7 @@ just copy those modules but its just better to migrate to 1.5**
 
   - Converting a Date from Jalaali
 ```elixir
-  {:ok, jalaali_date} = Date.utc_now(1396, 6, 30, Calendar.Jalaali)
+  {:ok, jalaali_date} = Date.new(1396, 6, 30, Calendar.Jalaali)
   {:ok, iso_date} = Date.convert(jalaali_date, Calendar.ISO)
 ```
 
