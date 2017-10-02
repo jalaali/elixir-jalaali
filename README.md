@@ -20,7 +20,7 @@ Dates/DateTimes form other calendars back an forth.
 
 **This feature is intruduced in Elixir 1.5 so in any versions below 1.5 the `Date`
 and `DateTime` modules lack functions for converting calendars. However you can
-just copy those modules but its just better to migrate to 1.5**
+just copy those modules but its just better to migrate to 1.5 or above**
 
 ### How to use
 
@@ -57,7 +57,7 @@ just copy those modules but its just better to migrate to 1.5**
   Thats super easy. :)
 
 ## Usage (Elixir < 1.5) [Old bad way]
-__&ast;IMPORTANT&ast; Do not use these methods if you can migrate to Elixir 1.5__
+__&ast;IMPORTANT&ast; Do not use these methods if you can migrate to Elixir 1.5 or above__
 
 After installing jalaali package. you can use it for:
 
