@@ -13,7 +13,7 @@ def deps do
 end
 ```
 
-## Usage (Elixir >= 1.5)
+## Usage
 
 After installing jalaali package. you can create Dates/DateTimes in jalaali or convert
 Dates/DateTimes form other calendars back an forth.
@@ -55,37 +55,6 @@ just copy those modules but its just better to migrate to 1.5 or above**
 ```
 
   Thats super easy. :)
-
-## Usage (Elixir < 1.5) [Old bad way]
-__&ast;IMPORTANT&ast; Do not use these methods if you can migrate to Elixir 1.5 or above__
-
-After installing jalaali package. you can use it for:
-
-  - Converting Gregorian dates to Jalaali:
-
-```elixir
-  jal_date = Jalaali.to_jalaali(~D[2015-02-29])
-```
-
-  - Converting Jalaali dates to Gregorian:
-
-```elixir
-  gre_date = Jalaali.to_gregorian(~D[1395-03-15])
-```
-
-  - Checking for Jalaali leap years:
-
-```elixir
-  Jalaali.is_leap_jalaali_year(1395)
-  true
-```
-
-  - Get a Jalaali month lenght
-
-```elixir
-  Jalaali.jalaali_month_length(1395, 12)
-  30
-```
 
 ## License
 

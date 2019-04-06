@@ -15,7 +15,7 @@ defmodule Jalaali.Mixfile do
       deps: deps(),
       docs: [
         source_ref: "v#{@version}",
-        main: "README",
+        main: "readme",
         canonical: "http://hexdocs.pm/jalaali",
         source_url: "https://github.com/jalaali/elixir-jalaali",
         extras: ["README.md"]
