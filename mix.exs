@@ -1,21 +1,25 @@
 defmodule Jalaali.Mixfile do
   use Mix.Project
 
-  @version "0.2.1"
+  @version "0.3.0"
 
   def project do
-    [app: :jalaali,
-     version: @version,
-     elixir: "~> 1.3",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     description: description(),
-     package: package(),
-     deps: deps(),
-     docs: [source_ref: "v#{@version}", main: "README",
-            canonical: "http://hexdocs.pm/jalaali",
-            source_url: "https://github.com/jalaali/elixir-jalaali",
-            extras: ["README.md"]]
+    [
+      app: :jalaali,
+      version: @version,
+      elixir: "~> 1.3",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      description: description(),
+      package: package(),
+      deps: deps(),
+      docs: [
+        source_ref: "v#{@version}",
+        main: "README",
+        canonical: "http://hexdocs.pm/jalaali",
+        source_url: "https://github.com/jalaali/elixir-jalaali",
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -37,8 +41,7 @@ defmodule Jalaali.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:ex_doc, "~> 0.14", only: :dev},
-      {:earmark, "~> 1.0", only: :dev}
+      {:ex_doc, "~> 0.20.1", only: :dev}
     ]
   end
 
@@ -50,11 +53,11 @@ defmodule Jalaali.Mixfile do
 
   defp package do
     [
-     name: :jalaali,
-     files: ["lib", "mix.exs", "README*", "LICENSE"],
-     maintainers: ["Alisina Bahadori"],
-     licenses: ["MIT"],
-     links: %{"GitHub" => "https://github.com/jalaali/elixir-jalaali"}
+      name: :jalaali,
+      files: ["lib", "mix.exs", "README*", "LICENSE"],
+      maintainers: ["Alisina Bahadori"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/jalaali/elixir-jalaali"}
     ]
   end
 end
