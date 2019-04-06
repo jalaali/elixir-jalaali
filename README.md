@@ -9,7 +9,7 @@ You can install `jalaali` by Addding it to your list of dependencies in `mix.exs
 
 ```elixir
 def deps do
-  [{:jalaali, "~> 0.2.1"}]
+  [{:jalaali, "~> 0.3"}]
 end
 ```
 
