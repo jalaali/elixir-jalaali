@@ -246,7 +246,6 @@ defmodule Jalaali.Calendar do
       iex> Jalaali.Calendar.year_of_era(-1)
       {2, 0}
   """
-  @doc since: "0.3.0"
   @spec year_of_era(year) :: {year, era :: 0..1}
   @impl true
   def year_of_era(year) when is_integer(year) and year > 0, do: {year, 1}
@@ -264,7 +263,6 @@ defmodule Jalaali.Calendar do
       12
 
   """
-  @doc since: "0.3.0"
   @spec months_in_year(year) :: 12
   @impl true
   def months_in_year(_year), do: @months_in_year
@@ -282,7 +280,6 @@ defmodule Jalaali.Calendar do
       iex> Jalaali.Calendar.quarter_of_year(2678, 12, 28)
       4
   """
-  @doc since: "0.3.0"
   @spec quarter_of_year(year, month, day) :: 1..4
   @impl true
   def quarter_of_year(year, month, day)
@@ -304,7 +301,6 @@ defmodule Jalaali.Calendar do
       iex> Jalaali.Calendar.day_of_era(-1, 12, 29)
       {367, 0}
   """
-  @doc since: "0.3.0"
   @spec day_of_era(year, month, day) :: {day :: pos_integer(), era :: 0..1}
   @impl true
   def day_of_era(year, month, day)
@@ -333,7 +329,6 @@ defmodule Jalaali.Calendar do
       59
 
   """
-  @doc since: "0.3.0"
   @spec day_of_year(year, month, day) :: 1..366
   @impl true
   def day_of_year(year, month, day)
