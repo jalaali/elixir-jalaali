@@ -11,92 +11,64 @@ defmodule Jalaali do
           2097, 2192, 2262, 2324, 2394, 2456, 3178]
 
   @doc """
-  Converts an erlang date from Gregorian to Jalaali date in erlang format
+  Converts erlang or elixir date or dateTime from Gregorian to Jalaali format
 
   ## Parameters
     - arg1: Date to convert in erlang format (a tuple with three elements)
+    - arg1: erlang dateTime to convert in erlang format (a tuple with two difftent tuples each with 3 elements)
+    - ex_dt: Date or DateTime to convert
 
   ## Exmaples
     iex> Jalaali.to_jalaali {2016, 12, 17}
     {1395, 9, 27}
+
+    iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
+    {{1395, 9, 27}, {11, 11, 11}}
+
+    iex> Jalaali.to_jalaali ~D[2016-12-17]
+    ~D[1395-09-27]
   """
-  @spec to_jalaali(Tuple.t) :: Tuple.t
+  @spec to_jalaali(Tuple.t | DateTime.t | Date.t) :: Tuple.t | DateTime.t | Date.t
   def to_jalaali({gy, gm, gd}) do
     d2j(g2d({gy, gm, gd}))
   end
 
-  @doc """
-  Converts an erlang dateTime from Gregorian to Jalaali dateTime in erlang format
-
-  ## Parameters
-    - arg1: erlang dateTime to convert in erlang format (a tuple with two difftent tuples each with 3 elements)
-
-  ## Exmaples
-    iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
-    {{1395, 9, 27}, {11, 11, 11}}
-  """
-  @spec to_jalaali(Tuple.t) :: Tuple.t
   def to_jalaali({date, time}) do
     {to_jalaali(date), time}
   end
 
-  @doc """
-  Converts and elixir Date or DateTime from Gregorian to Jalaali in elixir Date or DateTime format
-
-  ## Parameters
-    - ex_dt: Date or DateTime to convert
-
-  ## Exmaples
-    iex> Jalaali.to_jalaali ~D[2016-12-17]
-    ~D[1395-09-27]
-  """
-  @spec to_jalaali(DateTime.t | Date.t) :: DateTime.t | Date.t
   def to_jalaali(ex_dt) do
     {jy, jm, jd} = to_jalaali({ex_dt.year, ex_dt.month, ex_dt.day})
     %{ex_dt | year: jy, month: jm, day: jd}
   end
 
   @doc """
-  Converts an erlang date from Jalaali to Gregorian date in erlang format
+  Converts erlang or elixir date or dateTime from Jalaali to Gregorian format
 
   ## Parameters
     - arg1: Date to convert in erlang format (a tuple with three elements)
+    - arg1: Date to convert in erlang format (a tuple with three elements)
+    - ex_dt: Date or DateTime to convert
 
   ## Exmaples
     iex> Jalaali.to_gregorian {1395, 9, 27}
     {2016, 12, 17}
+
+    iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
+    {{1395, 9, 27}, {11, 11, 11}}
+
+    iex> Jalaali.to_gregorian ~D[1395-09-27]
+    ~D[2016-12-17]
   """
-  @spec to_gregorian(Tuple.t) :: Tuple.t
+  @spec to_gregorian(Tuple.t | DateTime.t | Date.t) :: Tuple.t | DateTime.t | Date.t
   def to_gregorian({jy, jm, jd}) do
     d2g(j2d({jy, jm, jd}))
   end
 
-  @doc """
-  Converts an erlang date from Jalaali to Gregorian date in erlang format
-
-  ## Parameters
-    - arg1: Date to convert in erlang format (a tuple with three elements)
-
-  ## Exmaples
-    iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
-    {{1395, 9, 27}, {11, 11, 11}}
-  """
-  @spec to_gregorian(Tuple.t) :: Tuple.t
   def to_gregorian({date, time}) do
     {to_gregorian(date), time}
   end
 
-  @doc """
-  Converts and elixir Date or DateTime from Gregorian to Jalaali in elixir Date or DateTime format
-
-  ## Parameters
-    - ex_dt: Date or DateTime to convert
-
-  ## Exmaples
-    iex> Jalaali.to_gregorian ~D[1395-09-27]
-    ~D[2016-12-17]
-  """
-  @spec to_gregorian(DateTime.t | Date.t) :: DateTime.t | Date.t
   def to_gregorian(ex_dt) do
     {gy, gm, gd} = to_gregorian({ex_dt.year, ex_dt.month, ex_dt.day})
     %{ex_dt | year: gy, month: gm, day: gd}
