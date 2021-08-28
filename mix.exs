@@ -7,7 +7,7 @@ defmodule Jalaali.Mixfile do
     [
       app: :jalaali,
       version: @version,
-      elixir: "~> 1.12.0",
+      elixir: "~> 1.6",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description: description(),
