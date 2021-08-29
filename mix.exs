@@ -7,7 +7,7 @@ defmodule Jalaali.Mixfile do
     [
       app: :jalaali,
       version: @version,
-      elixir: "~> 1.3",
+      elixir: "~> 1.6",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description: description(),
@@ -41,7 +41,7 @@ defmodule Jalaali.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:ex_doc, "~> 0.20.1", only: :dev}
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false},
     ]
   end
 
