@@ -33,14 +33,21 @@ defmodule Jalaali.Calendar do
   def leap_year?(year), do: Jalaali.is_leap_jalaali_year(year)
 
 
-  @spec day_of_week(year, month, day) :: day_of_week
   @doc """
   Returns day of week on a spesific set of year, month and day
   """
-  def day_of_week(year, month, day) do
-    {:ok, date} = Date.new(year, month, day, __MODULE__)
-    iso_date = Date.convert!(date, Calendar.ISO)
-    Calendar.ISO.day_of_week(iso_date.year, iso_date.month, iso_date.day)
+  if Code.ensure_loaded?(Calendar.ISO) && function_exported?(Calendar.ISO, :day_of_week, 4) do
+    def day_of_week(year, month, day, starting_on) do
+      {:ok, date} = Date.new(year, month, day, __MODULE__)
+      iso_date = Date.convert!(date, Calendar.ISO)
+      Calendar.ISO.day_of_week(iso_date.year, iso_date.month, iso_date.day, starting_on)
+    end
+  else
+    def day_of_week(year, month, day) do
+      {:ok, date} = Date.new(year, month, day, __MODULE__)
+      iso_date = Date.convert!(date, Calendar.ISO)
+      Calendar.ISO.day_of_week(iso_date.year, iso_date.month, iso_date.day)
+    end
   end
 
   @doc """
