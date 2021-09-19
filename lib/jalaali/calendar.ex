@@ -3,8 +3,6 @@ defmodule Jalaali.Calendar do
   A calendar implementation based on jalaali calendar system
   """
 
-  @behaviour Calendar
-
   @type year :: -61..3178
   @type month :: 1..12
   @type day :: 1..31
@@ -26,15 +24,15 @@ defmodule Jalaali.Calendar do
   # with era 1 on 0001-01-01 which is 227261 days later.
   @jalaali_epoch 227_261
 
-  @impl true
+
   @spec days_in_month(Calendar.year(), Calendar.month()) :: Calendar.day()
   def days_in_month(year, month), do: Jalaali.jalaali_month_length(year, month)
 
-  @impl true
+
   @spec leap_year?(Calendar.year()) :: boolean
   def leap_year?(year), do: Jalaali.is_leap_jalaali_year(year)
 
-  @impl true
+
   @spec day_of_week(year, month, day) :: day_of_week
   @doc """
   Returns day of week on a spesific set of year, month and day
@@ -48,10 +46,10 @@ defmodule Jalaali.Calendar do
   @doc """
   Converts the given date into a string.
   """
-  @impl true
+
   @spec date_to_string(year, month, day) :: String.t()
   def date_to_string(year, month, day) do
-    zero_pad(year, 4) <> "-" <> zero_pad(month, 2) <> "-" <> zero_pad(day, 2)
+    Jalaali.Helper.zero_pad(year, 4) <> "-" <> Jalaali.Helper.zero_pad(month, 2) <> "-" <> Jalaali.Helper.zero_pad(day, 2)
   end
 
   @doc """
@@ -64,13 +62,13 @@ defmodule Jalaali.Calendar do
   def date_to_string(year, month, day, :extended), do: date_to_string(year, month, day)
 
   def date_to_string(year, month, day, :basic) do
-    zero_pad(year, 4) <> zero_pad(month, 2) <> zero_pad(day, 2)
+    Jalaali.Helper.zero_pad(year, 4) <> Jalaali.Helper.zero_pad(month, 2) <> Jalaali.Helper.zero_pad(day, 2)
   end
 
   @doc """
   Converts the datetime (without time zone) into a human readable string.
   """
-  @impl true
+
   @spec naive_datetime_to_string(year, month, day, hour, minute, second, microsecond) ::
           String.t()
   def naive_datetime_to_string(year, month, day, hour, minute, second, microsecond) do
@@ -80,7 +78,7 @@ defmodule Jalaali.Calendar do
   @doc """
   Convers the datetime (with time zone) into a human readable string.
   """
-  @impl true
+
   def datetime_to_string(
         year,
         month,
@@ -97,14 +95,14 @@ defmodule Jalaali.Calendar do
     date_to_string(year, month, day) <>
       " " <>
       time_to_string(hour, minute, second, microsecond) <>
-      offset_to_string(utc_offset, std_offset, time_zone) <>
-      zone_to_string(utc_offset, std_offset, zone_abbr, time_zone)
+      Jalaali.Helper.offset_to_string(utc_offset, std_offset, time_zone) <>
+      Jalaali.Helper.zone_to_string(utc_offset, std_offset, zone_abbr, time_zone)
   end
 
   @doc """
   Converts the given time into a string.
   """
-  @impl true
+
   def time_to_string(hour, minute, second, microsecond) do
     time_to_string(hour, minute, second, microsecond, :extended)
   end
@@ -115,21 +113,21 @@ defmodule Jalaali.Calendar do
 
   def time_to_string(hour, minute, second, {microsecond, precision}, format) do
     time_to_string_format(hour, minute, second, format) <>
-      "." <> (microsecond |> zero_pad(6) |> binary_part(0, precision))
+      "." <> (microsecond |> Jalaali.Helper.zero_pad(6) |> binary_part(0, precision))
   end
 
   defp time_to_string_format(hour, minute, second, :extended) do
-    zero_pad(hour, 2) <> ":" <> zero_pad(minute, 2) <> ":" <> zero_pad(second, 2)
+    Jalaali.Helper.zero_pad(hour, 2) <> ":" <> Jalaali.Helper.zero_pad(minute, 2) <> ":" <> Jalaali.Helper.zero_pad(second, 2)
   end
 
   defp time_to_string_format(hour, minute, second, :basic) do
-    zero_pad(hour, 2) <> zero_pad(minute, 2) <> zero_pad(second, 2)
+    Jalaali.Helper.zero_pad(hour, 2) <> Jalaali.Helper.zero_pad(minute, 2) <> Jalaali.Helper.zero_pad(second, 2)
   end
 
   @doc """
   Returns the `t:Calendar.iso_days` format of the specified date.
   """
-  @impl true
+
   @spec naive_datetime_to_iso_days(
           Calendar.year(),
           Calendar.month(),
@@ -147,7 +145,7 @@ defmodule Jalaali.Calendar do
   @doc """
   Converts the `t:Calendar.iso_days` format to the datetime format specified by this calendar.
   """
-  @impl true
+
   @spec naive_datetime_from_iso_days(Calendar.iso_days()) ::
           {Calendar.year(), Calendar.month(), Calendar.day(), Calendar.hour(), Calendar.minute(),
            Calendar.second(), Calendar.microsecond()}
@@ -167,7 +165,7 @@ defmodule Jalaali.Calendar do
       {45296000123, 86400000000}
 
   """
-  @impl true
+
   @spec time_to_day_fraction(
           Calendar.hour(),
           Calendar.minute(),
@@ -195,7 +193,7 @@ defmodule Jalaali.Calendar do
       {13, 0, 0, {0, 6}}
 
   """
-  @impl true
+
   @spec time_from_day_fraction(Calendar.day_fraction()) ::
           {Calendar.hour(), Calendar.minute(), Calendar.second(), Calendar.microsecond()}
   def time_from_day_fraction({parts_in_day, parts_per_day}) do
@@ -203,12 +201,12 @@ defmodule Jalaali.Calendar do
       div(parts_in_day * @seconds_per_day * @microseconds_per_second, parts_per_day)
 
     {hours, rest_microseconds1} =
-      div_mod(total_microseconds, @seconds_per_hour * @microseconds_per_second)
+      Jalaali.Helper.div_mod(total_microseconds, @seconds_per_hour * @microseconds_per_second)
 
     {minutes, rest_microseconds2} =
-      div_mod(rest_microseconds1, @seconds_per_minute * @microseconds_per_second)
+      Jalaali.Helper.div_mod(rest_microseconds1, @seconds_per_minute * @microseconds_per_second)
 
-    {seconds, microseconds} = div_mod(rest_microseconds2, @microseconds_per_second)
+    {seconds, microseconds} = Jalaali.Helper.div_mod(rest_microseconds2, @microseconds_per_second)
     {hours, minutes, seconds, {microseconds, 6}}
   end
 
@@ -216,13 +214,13 @@ defmodule Jalaali.Calendar do
   In Jalaali calendar new day starts at midnight.
   This function always returns `{0, 1}` as result.
   """
-  @impl true
+
   def day_rollover_relative_to_midnight_utc(), do: {0, 1}
 
-  @impl true
+
   def valid_date?(year, month, day), do: Jalaali.is_valid_jalaali_date?({year, month, day})
 
-  @impl true
+
   def valid_time?(hour, minute, second, {microsecond, precision}) do
     hour in 0..23 and minute in 0..59 and second in 0..60 and
       microsecond in 0..999_999 and precision in 0..6
@@ -247,7 +245,7 @@ defmodule Jalaali.Calendar do
       {2, 0}
   """
   @spec year_of_era(year) :: {year, era :: 0..1}
-  @impl true
+
   def year_of_era(year) when is_integer(year) and year > 0, do: {year, 1}
 
   def year_of_era(year) when is_integer(year) and year < 1, do: {abs(year) + 1, 0}
@@ -264,7 +262,7 @@ defmodule Jalaali.Calendar do
 
   """
   @spec months_in_year(year) :: 12
-  @impl true
+
   def months_in_year(_year), do: @months_in_year
 
   @doc """
@@ -281,7 +279,7 @@ defmodule Jalaali.Calendar do
       4
   """
   @spec quarter_of_year(year, month, day) :: 1..4
-  @impl true
+
   def quarter_of_year(year, month, day)
       when is_integer(year) and is_integer(month) and is_integer(day) do
     div(month - 1, 3) + 1
@@ -302,7 +300,7 @@ defmodule Jalaali.Calendar do
       {367, 0}
   """
   @spec day_of_era(year, month, day) :: {day :: pos_integer(), era :: 0..1}
-  @impl true
+
   def day_of_era(year, month, day)
       when is_integer(year) and is_integer(month) and is_integer(day) and year > 0 do
     day = Jalaali.jalaali_to_days(year, month, day) - @jalaali_epoch + 1
@@ -330,50 +328,10 @@ defmodule Jalaali.Calendar do
 
   """
   @spec day_of_year(year, month, day) :: 1..366
-  @impl true
+
   def day_of_year(year, month, day)
       when is_integer(year) and is_integer(month) and is_integer(day) do
     first_day_of_year = Jalaali.jalaali_to_days(year, 01, 01)
     Jalaali.jalaali_to_days(year, month, day) - first_day_of_year + 1
-  end
-
-  ###########
-  # Helpers #
-  ###########
-
-  defp offset_to_string(utc, std, zone, format \\ :extended)
-  defp offset_to_string(0, 0, "Etc/UTC", _format), do: "Z"
-
-  defp offset_to_string(utc, std, _zone, format) do
-    total = utc + std
-    second = abs(total)
-    minute = second |> rem(3600) |> div(60)
-    hour = div(second, 3600)
-    format_offset(total, hour, minute, format)
-  end
-
-  defp format_offset(total, hour, minute, :extended) do
-    sign(total) <> zero_pad(hour, 2) <> ":" <> zero_pad(minute, 2)
-  end
-
-  defp format_offset(total, hour, minute, :basic) do
-    sign(total) <> zero_pad(hour, 2) <> zero_pad(minute, 2)
-  end
-
-  defp zone_to_string(0, 0, _abbr, "Etc/UTC"), do: ""
-  defp zone_to_string(_, _, abbr, zone), do: " " <> abbr <> " " <> zone
-
-  defp sign(total) when total < 0, do: "-"
-  defp sign(_), do: "+"
-
-  defp zero_pad(val, count) do
-    num = Integer.to_string(val)
-    :binary.copy("0", count - byte_size(num)) <> num
-  end
-
-  defp div_mod(int1, int2) do
-    div = div(int1, int2)
-    mod = int1 - div * int2
-    {div, mod}
   end
 end
