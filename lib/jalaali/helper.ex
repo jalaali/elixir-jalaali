@@ -70,36 +70,4 @@ defmodule Jalaali.Helper do
     mod = int1 - div * int2
     {div, mod}
   end
-
-
-  # Helper functions to create a custom Jalaali time to input on HTML source
-  @spec miladi_to_jalaali(map()) :: binary
-  def miladi_to_jalaali(datetime) do
-    {:ok, jalaali_datetime} = DateTime.convert(datetime, Jalaali.Calendar)
-    jalaali_datetime
-    |> DateTime.to_string()
-    |> String.replace("Z", "")
-  end
-
-  @spec jalaali_create(map(), binary()) :: %{day_number: pos_integer, month_name: pos_integer, year_number: integer}
-  def jalaali_create(time_need, "number") do
-    {:ok, jalaali_date} = Date.convert(time_need, Jalaali.Calendar)
-    %{day_number: jalaali_date.day, month_name: jalaali_date.month, year_number: jalaali_date.year}
-  end
-
-  @spec jalaali_create(map()) :: %{day_number: pos_integer, month_name: String.t(), year_number: integer}
-  def jalaali_create(time_need) do
-    {:ok, jalaali_date} = Date.convert(time_need, Jalaali.Calendar)
-    %{day_number: jalaali_date.day, month_name: get_month(jalaali_date.month), year_number: jalaali_date.year}
-  end
-
-  @spec get_month(integer()) :: String.t()
-  def get_month(id) when id in 1..12 do
-    {_id, name} = [
-      {1, "فروردین"}, {2, "اردیبهشت"}, {3, "خرداد"}, {4, "تیر"}, {5, "مرداد"}, {6, "شهریور"},
-      {7, "مهر"}, {8, "آبان"}, {9, "آذر"}, {10, "دی"}, {11, "بهمن"}, {12, "اسفند"},
-    ]
-    |> Enum.find(fn {month_id, _month_persian_name} -> month_id == id end)
-    name
-  end
 end
