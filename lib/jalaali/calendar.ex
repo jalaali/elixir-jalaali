@@ -2,40 +2,28 @@ defmodule Jalaali.Calendar do
   @moduledoc """
   A calendar implementation based on jalaali calendar system
   """
-
-  @type year :: -61..3178
-  @type month :: 1..12
-  @type day :: 1..31
-  @type day_of_week :: 1..7
-  @type hour :: 0..23
-  @type minute :: 0..59
-  @type second :: 0..60
-  @type microsecond :: Integer.t()
-
   @seconds_per_minute 60
   @seconds_per_hour 60 * 60
   # Note that this does NOT handle leap seconds.
   @seconds_per_day 24 * 60 * 60
   @microseconds_per_second 1_000_000
-
   @months_in_year 12
-
   # The Jalaali epoch starts, in this implementation,
   # with era 1 on 0001-01-01 which is 227261 days later.
   @jalaali_epoch 227_261
 
+  @behaviour Jalaali.Helper
 
-  @spec days_in_month(Calendar.year(), Calendar.month()) :: Calendar.day()
+  @impl true
   def days_in_month(year, month), do: Jalaali.jalaali_month_length(year, month)
 
-
-  @spec leap_year?(Calendar.year()) :: boolean
+  @impl true
   def leap_year?(year), do: Jalaali.is_leap_jalaali_year(year)
-
 
   @doc """
   Returns day of week on a spesific set of year, month and day
   """
+  @impl true
   if Code.ensure_loaded?(Calendar.ISO) && function_exported?(Calendar.ISO, :day_of_week, 4) do
     def day_of_week(year, month, day, starting_on) do
       {:ok, date} = Date.new(year, month, day, __MODULE__)
@@ -53,8 +41,7 @@ defmodule Jalaali.Calendar do
   @doc """
   Converts the given date into a string.
   """
-
-  @spec date_to_string(year, month, day) :: String.t()
+  @impl true
   def date_to_string(year, month, day) do
     Jalaali.Helper.zero_pad(year, 4) <> "-" <> Jalaali.Helper.zero_pad(month, 2) <> "-" <> Jalaali.Helper.zero_pad(day, 2)
   end
@@ -65,7 +52,7 @@ defmodule Jalaali.Calendar do
    - Extended type of string date. e.g.: "2017-01-05" `:extended`
    - Basic type of string date. e.g.: "20170105" `:basic`
   """
-  @spec date_to_string(year, month, day, :extended | :basic) :: String.t()
+  @impl true
   def date_to_string(year, month, day, :extended), do: date_to_string(year, month, day)
 
   def date_to_string(year, month, day, :basic) do
@@ -75,9 +62,7 @@ defmodule Jalaali.Calendar do
   @doc """
   Converts the datetime (without time zone) into a human readable string.
   """
-
-  @spec naive_datetime_to_string(year, month, day, hour, minute, second, microsecond) ::
-          String.t()
+  @impl true
   def naive_datetime_to_string(year, month, day, hour, minute, second, microsecond) do
     date_to_string(year, month, day) <> " " <> time_to_string(hour, minute, second, microsecond)
   end
@@ -85,20 +70,8 @@ defmodule Jalaali.Calendar do
   @doc """
   Convers the datetime (with time zone) into a human readable string.
   """
-
-  def datetime_to_string(
-        year,
-        month,
-        day,
-        hour,
-        minute,
-        second,
-        microsecond,
-        time_zone,
-        zone_abbr,
-        utc_offset,
-        std_offset
-      ) do
+  @impl true
+  def datetime_to_string(year, month, day, hour, minute, second, microsecond, time_zone, zone_abbr, utc_offset, std_offset) do
     date_to_string(year, month, day) <>
       " " <>
       time_to_string(hour, minute, second, microsecond) <>
@@ -109,7 +82,7 @@ defmodule Jalaali.Calendar do
   @doc """
   Converts the given time into a string.
   """
-
+  @impl true
   def time_to_string(hour, minute, second, microsecond) do
     time_to_string(hour, minute, second, microsecond, :extended)
   end
@@ -134,16 +107,7 @@ defmodule Jalaali.Calendar do
   @doc """
   Returns the `t:Calendar.iso_days` format of the specified date.
   """
-
-  @spec naive_datetime_to_iso_days(
-          Calendar.year(),
-          Calendar.month(),
-          Calendar.day(),
-          Calendar.hour(),
-          Calendar.minute(),
-          Calendar.second(),
-          Calendar.microsecond()
-        ) :: Calendar.iso_days()
+  @impl true
   def naive_datetime_to_iso_days(year, month, day, hour, minute, second, microsecond) do
     {Jalaali.jalaali_to_days(year, month, day),
      time_to_day_fraction(hour, minute, second, microsecond)}
@@ -152,10 +116,7 @@ defmodule Jalaali.Calendar do
   @doc """
   Converts the `t:Calendar.iso_days` format to the datetime format specified by this calendar.
   """
-
-  @spec naive_datetime_from_iso_days(Calendar.iso_days()) ::
-          {Calendar.year(), Calendar.month(), Calendar.day(), Calendar.hour(), Calendar.minute(),
-           Calendar.second(), Calendar.microsecond()}
+  @impl true
   def naive_datetime_from_iso_days({days, day_fraction}) do
     {year, month, day} = Jalaali.days_to_jalaali(days)
     {hour, minute, second, microsecond} = time_from_day_fraction(day_fraction)
@@ -173,12 +134,7 @@ defmodule Jalaali.Calendar do
 
   """
 
-  @spec time_to_day_fraction(
-          Calendar.hour(),
-          Calendar.minute(),
-          Calendar.second(),
-          Calendar.microsecond()
-        ) :: Calendar.day_fraction()
+  @impl true
   def time_to_day_fraction(0, 0, 0, {0, _}) do
     {0, 86_400_000_000}
   end
@@ -200,9 +156,7 @@ defmodule Jalaali.Calendar do
       {13, 0, 0, {0, 6}}
 
   """
-
-  @spec time_from_day_fraction(Calendar.day_fraction()) ::
-          {Calendar.hour(), Calendar.minute(), Calendar.second(), Calendar.microsecond()}
+  @impl true
   def time_from_day_fraction({parts_in_day, parts_per_day}) do
     total_microseconds =
       div(parts_in_day * @seconds_per_day * @microseconds_per_second, parts_per_day)
@@ -221,12 +175,9 @@ defmodule Jalaali.Calendar do
   In Jalaali calendar new day starts at midnight.
   This function always returns `{0, 1}` as result.
   """
-
   def day_rollover_relative_to_midnight_utc(), do: {0, 1}
 
-
   def valid_date?(year, month, day), do: Jalaali.is_valid_jalaali_date?({year, month, day})
-
 
   def valid_time?(hour, minute, second, {microsecond, precision}) do
     hour in 0..23 and minute in 0..59 and second in 0..60 and
@@ -251,8 +202,7 @@ defmodule Jalaali.Calendar do
       iex> Jalaali.Calendar.year_of_era(-1)
       {2, 0}
   """
-  @spec year_of_era(year) :: {year, era :: 0..1}
-
+  @impl true
   def year_of_era(year) when is_integer(year) and year > 0, do: {year, 1}
 
   def year_of_era(year) when is_integer(year) and year < 1, do: {abs(year) + 1, 0}
@@ -268,8 +218,7 @@ defmodule Jalaali.Calendar do
       12
 
   """
-  @spec months_in_year(year) :: 12
-
+  @impl true
   def months_in_year(_year), do: @months_in_year
 
   @doc """
@@ -285,8 +234,7 @@ defmodule Jalaali.Calendar do
       iex> Jalaali.Calendar.quarter_of_year(2678, 12, 28)
       4
   """
-  @spec quarter_of_year(year, month, day) :: 1..4
-
+  @impl true
   def quarter_of_year(year, month, day)
       when is_integer(year) and is_integer(month) and is_integer(day) do
     div(month - 1, 3) + 1
@@ -306,8 +254,7 @@ defmodule Jalaali.Calendar do
       iex> Jalaali.Calendar.day_of_era(-1, 12, 29)
       {367, 0}
   """
-  @spec day_of_era(year, month, day) :: {day :: pos_integer(), era :: 0..1}
-
+  @impl true
   def day_of_era(year, month, day)
       when is_integer(year) and is_integer(month) and is_integer(day) and year > 0 do
     day = Jalaali.jalaali_to_days(year, month, day) - @jalaali_epoch + 1
@@ -334,8 +281,7 @@ defmodule Jalaali.Calendar do
       59
 
   """
-  @spec day_of_year(year, month, day) :: 1..366
-
+  @impl true
   def day_of_year(year, month, day)
       when is_integer(year) and is_integer(month) and is_integer(day) do
     first_day_of_year = Jalaali.jalaali_to_days(year, 01, 01)
