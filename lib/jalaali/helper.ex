@@ -102,9 +102,4 @@ defmodule Jalaali.Helper do
     |> Enum.find(fn {month_id, _month_persian_name} -> month_id == id end)
     name
   end
-
-  @spec fix_month_and_day(String.t()) :: binary
-  def fix_month_and_day(string_number) do
-    if String.length("#{string_number}") == 1, do: "0#{string_number}", else: "#{string_number}"
-  end
 end
