@@ -56,7 +56,7 @@ defmodule Jalaali.Mixfile do
     [
       name: :jalaali,
       files: ["lib", "mix.exs", "README*", "LICENSE"],
-      maintainers: ["Alisina Bahadori"],
+      maintainers: ["Alisina Bahadori", "Shahryar Tavakkoli"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/jalaali/elixir-jalaali"}
     ]
