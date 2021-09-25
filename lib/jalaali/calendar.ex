@@ -318,9 +318,9 @@ defmodule Jalaali.Calendar do
     sign(total) <> zero_pad(hour, 2) <> ":" <> zero_pad(minute, 2)
   end
 
-  defp format_offset(total, hour, minute, :basic) do
-    sign(total) <> zero_pad(hour, 2) <> zero_pad(minute, 2)
-  end
+  # defp format_offset(total, hour, minute, :basic) do
+  #   sign(total) <> zero_pad(hour, 2) <> zero_pad(minute, 2)
+  # end
 
   @spec zone_to_string(any, any, any, binary) :: binary
   defp zone_to_string(0, 0, _abbr, "Etc/UTC"), do: ""
