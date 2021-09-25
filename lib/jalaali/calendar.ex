@@ -32,7 +32,7 @@ defmodule Jalaali.Calendar do
   @doc """
   Returns day of week on a spesific set of year, month and day
   """
-  @spec day_of_week(integer,pos_integer,pos_integer, atom()) :: tuple() | {1 | 2 | 3 | 4 | 5 | 6 | 7, 1, 7}
+  @spec day_of_week(integer, pos_integer, pos_integer, atom()) :: tuple() | {1 | 2 | 3 | 4 | 5 | 6 | 7, 1, 7}
   if Code.ensure_loaded?(Calendar.ISO) && function_exported?(Calendar.ISO, :day_of_week, 4) do
     def day_of_week(year, month, day, starting_on) do
       {:ok, date} = Date.new(year, month, day, __MODULE__)
