@@ -189,22 +189,20 @@ defmodule Jalaali do
     n = jy - jp
 
     leap_j1 =
-      cond do
-        mod(jump, 33) == 4 && jump - n == 4 ->
-          leap_j + div(n, 33) * 8 + div(mod(n, 33) + 3, 4) + 1
-        true ->
-          leap_j + div(n, 33) * 8 + div(mod(n, 33) + 3, 4)
+      if mod(jump, 33) == 4 && jump - n == 4 do
+        leap_j + div(n, 33) * 8 + div(mod(n, 33) + 3, 4) + 1
+      else
+        leap_j + div(n, 33) * 8 + div(mod(n, 33) + 3, 4)
       end
 
     leap_g = div(gy, 4) - div((div(gy, 100) + 1) * 3, 4) - 150
 
     march = 20 + leap_j1 - leap_g
 
-    n = cond do
-      jump - n < 6 ->
-        n - jump + div(jump + 4, 33) * 33
-      true ->
-        jy - jp
+    n = if jump - n < 6 do
+      n - jump + div(jump + 4, 33) * 33
+    else
+      jy - jp
     end
 
     leap_c = mod(mod(n + 1, 33) - 1, 4)
@@ -221,11 +219,10 @@ defmodule Jalaali do
   defp calc_jlimit(jy, {jp, leap_j}, index) do
     jm = Enum.at(@breaks, index)
     jump = jm - jp
-    cond do
-      jy < jm ->
-        {jump, jp, leap_j}
-      true ->
-        calc_jlimit(jy, {jm, leap_j + div(jump, 33) * 8 + div(mod(jump, 33), 4)}, index + 1)
+    if jy < jm do
+      {jump, jp, leap_j}
+    else
+      calc_jlimit(jy, {jm, leap_j + div(jump, 33) * 8 + div(mod(jump, 33), 4)}, index + 1)
     end
   end
 
