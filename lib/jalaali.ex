@@ -190,7 +190,7 @@ defmodule Jalaali do
 
     leap_j1 =
       cond do
-        mod(jump, 33) == 4 && jump - jy - jp == 4 ->
+        mod(jump, 33) == 4 && jump - n == 4 ->
           leap_j + div(n, 33) * 8 + div(mod(n, 33) + 3, 4) + 1
         true ->
           leap_j + div(n, 33) * 8 + div(mod(n, 33) + 3, 4)
@@ -201,7 +201,7 @@ defmodule Jalaali do
     march = 20 + leap_j1 - leap_g
 
     n = cond do
-      jump - jy - jp < 6 ->
+      jump - n < 6 ->
         n - jump + div(jump + 4, 33) * 33
       true ->
         jy - jp

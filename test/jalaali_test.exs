@@ -4,12 +4,8 @@ defmodule JalaaliTest do
   doctest Jalaali
   doctest Jalaali.Calendar
 
-  test "the truth" do
-    assert 1 + 1 == 2
-  end
-
   test "convert regular jalaali date to gregorian date" do
-    test_time = DateTime.utc_now
+    test_time = DateTime.utc_now()
     assert test_time == to_gregorian(to_jalaali(test_time))
   end
 
@@ -34,6 +30,13 @@ defmodule JalaaliTest do
     {:ok, jal_date} = Date.new(1350, 1, 1, Jalaali.Calendar)
     gre_date = Date.convert!(jal_date, Calendar.ISO)
     assert gre_date == %Date{calendar: Calendar.ISO, day: 21, month: 3, year: 1971}
+  end
+
+  test "11th of Bahaman 1371 to gregorian and vice versa" do
+    {:ok, jal_date} = Date.new(1371, 11, 11, Jalaali.Calendar)
+    gre_date = Date.convert!(jal_date, Calendar.ISO)
+    assert gre_date == %Date{calendar: Calendar.ISO, day: 31, month: 1, year: 1993}
+    assert jal_date == Date.convert!(gre_date, Jalaali.Calendar)
   end
 
   test "Fifth of Ordibehesht 1210 to gregorian" do
