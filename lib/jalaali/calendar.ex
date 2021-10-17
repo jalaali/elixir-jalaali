@@ -72,8 +72,7 @@ defmodule Jalaali.Calendar do
   @doc """
   Converts the datetime (without time zone) into a human readable string.
   """
-  @spec naive_datetime_to_string(year(), month(), day(), hour(), minute(), second(), microsecond) ::
-          nonempty_binary
+  @spec naive_datetime_to_string(year(), month(), day(), hour(), minute(), second(), microsecond) :: String.t()
   def naive_datetime_to_string(year, month, day, hour, minute, second, microsecond) do
     date_to_string(year, month, day) <> " " <> time_to_string(hour, minute, second, microsecond)
   end
@@ -93,7 +92,7 @@ defmodule Jalaali.Calendar do
           any,
           number,
           number
-        ) :: nonempty_binary
+        ) :: String.t()
   def datetime_to_string(
         year,
         month,
