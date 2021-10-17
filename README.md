@@ -1,5 +1,9 @@
 # Elixir Jalaali calendar
-[![Build Status](https://travis-ci.org/jalaali/elixir-jalaali.svg?branch=master)](https://travis-ci.org/jalaali/elixir-jalaali) [![Hex.pm](https://img.shields.io/badge/hex-0.3.0-blue.svg)](https://hex.pm/packages/jalaali) [![GitHub license](https://img.shields.io/badge/license-MIT-green.svg)](https://raw.githubusercontent.com/jalaali/elixir-jalaali/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/jalaali/elixir-jalaali.svg)](https://github.com/jalaali/elixir-jalaali/issues)
+![Build Status](https://github.com/jalaali/elixir-jalaali/actions/workflows/ci.yaml/badge.svg)
+[![Hex.pm](https://img.shields.io/badge/hex-0.3.0-blue.svg)](https://hex.pm/packages/jalaali)
+[![GitHub license](https://img.shields.io/badge/license-MIT-green.svg)](https://raw.githubusercontent.com/jalaali/elixir-jalaali/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/jalaali/elixir-jalaali.svg)](https://github.com/jalaali/elixir-jalaali/issues)
+
 
 Elixir implementation of [jalaali.js](https://github.com/jalaali/jalaali-js) which contains a Calendar implementation for jalaali and some functions for converting Jalaali and Gregorian calendar systems to each other.
 

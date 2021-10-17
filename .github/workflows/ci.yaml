@@ -1,0 +1,86 @@
+name: Jalali CI
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:
+  check-format:
+    name: Check formatter
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '23.x'
+          elixir-version: '1.12'
+      - name: Install deps
+        run: mix deps.get
+      - name: Check code is formatter
+        run: mix format --check-formatted
+
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+
+    strategy:
+      matrix:
+        otp: ['23.x', '24.x']
+        elixir: ['1.11', '1.12']
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - name: Install Dependencies
+        run: mix deps.get
+      - name: Run tests
+        run: mix test
+
+  dialyzer:
+    name: Run Dialyzer
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+
+    strategy:
+      matrix:
+        otp: ['24.x']
+        elixir: ['1.12']
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - name: Retrieve Cached PLTs
+        uses: actions/cache@v2
+        id: plt-cache
+        with:
+          path: |
+            deps
+            _build
+          key: v2-${{ runner.os }}-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}
+      - name: Generate PLTs
+        if: steps.plt-cache.outputs.cache-hit != 'true'
+        run: |
+          mix deps.get
+          mix deps.compile
+          mix dialyzer --plt
+      - name: Run dialyzer
+        run: mix dialyzer --no-check --halt-exit-status
+
