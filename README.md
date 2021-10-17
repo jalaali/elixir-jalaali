@@ -1,6 +1,6 @@
 # Elixir Jalaali calendar
 ![Build Status](https://github.com/jalaali/elixir-jalaali/actions/workflows/ci.yaml/badge.svg)
-[![Hex.pm](https://img.shields.io/badge/hex-0.3.0-blue.svg)](https://hex.pm/packages/jalaali)
+[![Hex.pm](https://img.shields.io/badge/hex-0.4.0-blue.svg)](https://hex.pm/packages/jalaali)
 [![GitHub license](https://img.shields.io/badge/license-MIT-green.svg)](https://raw.githubusercontent.com/jalaali/elixir-jalaali/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/jalaali/elixir-jalaali.svg)](https://github.com/jalaali/elixir-jalaali/issues)
 
@@ -13,7 +13,9 @@ You can install `jalaali` by Addding it to your list of dependencies in `mix.exs
 
 ```elixir
 def deps do
-  [{:jalaali, "~> 0.3"}]
+  [
+    {:jalaali, "~> 0.4"}
+  ]
 end
 ```
 
@@ -21,10 +23,6 @@ end
 
 After installing jalaali package. you can create Dates/DateTimes in jalaali or convert
 Dates/DateTimes form other calendars back an forth.
-
-**This feature is intruduced in Elixir 1.5 so in any versions below 1.5 the `Date`
-and `DateTime` modules lack functions for converting calendars. However you can
-just copy those modules but its just better to migrate to 1.5 or above**
 
 ### How to use
 
