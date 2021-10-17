@@ -1,7 +1,7 @@
 defmodule Jalaali.Mixfile do
   use Mix.Project
 
-  @version "0.3.0"
+  @version "0.4.0"
 
   def project do
     [
@@ -56,7 +56,7 @@ defmodule Jalaali.Mixfile do
     [
       name: :jalaali,
       files: ["lib", "mix.exs", "README*", "LICENSE"],
-      maintainers: ["Alisina Bahadori"],
+      maintainers: ["Alisina Bahadori", "Shahryar Tavakkoli"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/jalaali/elixir-jalaali"}
     ]
