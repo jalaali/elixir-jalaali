@@ -7,8 +7,28 @@ defmodule Jalaali do
   """
 
   @days_offset 1_721_060
-  @breaks [-61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210, 1635, 2060,
-          2097, 2192, 2262, 2324, 2394, 2456, 3178]
+  @breaks [
+    -61,
+    9,
+    38,
+    199,
+    426,
+    686,
+    756,
+    818,
+    1111,
+    1181,
+    1210,
+    1635,
+    2060,
+    2097,
+    2192,
+    2262,
+    2324,
+    2394,
+    2456,
+    3178
+  ]
 
   @doc """
   Converts erlang or elixir date or dateTime from Gregorian to Jalaali format
@@ -28,7 +48,7 @@ defmodule Jalaali do
     iex> Jalaali.to_jalaali ~D[2016-12-17]
     ~D[1395-09-27]
   """
-  @spec to_jalaali(tuple() | DateTime.t | Date.t) :: tuple() | DateTime.t | Date.t
+  @spec to_jalaali(tuple() | DateTime.t() | Date.t()) :: tuple() | DateTime.t() | Date.t()
   def to_jalaali({gy, gm, gd}) do
     d2j(g2d({gy, gm, gd}))
   end
@@ -60,7 +80,7 @@ defmodule Jalaali do
     iex> Jalaali.to_gregorian ~D[1395-09-27]
     ~D[2016-12-17]
   """
-  @spec to_gregorian(tuple() | DateTime.t | Date.t) :: tuple() | DateTime.t | Date.t
+  @spec to_gregorian(tuple() | DateTime.t() | Date.t()) :: tuple() | DateTime.t() | Date.t()
   def to_gregorian({jy, jm, jd}) do
     d2g(j2d({jy, jm, jd}))
   end
@@ -199,26 +219,30 @@ defmodule Jalaali do
 
     march = 20 + leap_j1 - leap_g
 
-    n = if jump - n < 6 do
-      n - jump + div(jump + 4, 33) * 33
-    else
-      jy - jp
-    end
+    n =
+      if jump - n < 6 do
+        n - jump + div(jump + 4, 33) * 33
+      else
+        jy - jp
+      end
 
     leap_c = mod(mod(n + 1, 33) - 1, 4)
 
-    leap = case leap_c do
-      -1 -> 4
-      _ -> leap_c
-    end
+    leap =
+      case leap_c do
+        -1 -> 4
+        _ -> leap_c
+      end
 
     %{leap: leap, gy: gy, march: march}
   end
 
-  @spec calc_jlimit(integer(), {integer(), integer()}, integer()) :: {integer(), integer(), integer()}
+  @spec calc_jlimit(integer(), {integer(), integer()}, integer()) ::
+          {integer(), integer(), integer()}
   defp calc_jlimit(jy, {jp, leap_j}, index) do
     jm = Enum.at(@breaks, index)
     jump = jm - jp
+
     if jy < jm do
       {jump, jp, leap_j}
     else
@@ -234,20 +258,25 @@ defmodule Jalaali do
 
   @spec d2j(integer()) :: {integer(), integer(), integer()}
   defp d2j(jdn) do
-    gy = elem(d2g(jdn), 0)  # calculate gregorian year (gy)
+    # calculate gregorian year (gy)
+    gy = elem(d2g(jdn), 0)
     jy = gy - 621
     r = jal_cal(jy)
     jdn1f = g2d({gy, 3, r.march})
     # find number of days that passed since 1 farvardin
     k = jdn - jdn1f
+
     cond do
-      k <= 185 && k >= 0 -> {jy, div(k, 31) + 1, mod(k, 31) + 1}
+      k <= 185 && k >= 0 ->
+        {jy, div(k, 31) + 1, mod(k, 31) + 1}
+
       k >= 0 ->
         k = k - 186
 
         jm = 7 + div(k, 30)
         jd = mod(k, 30) + 1
         {jy, jm, jd}
+
       r.leap == 1 ->
         jy = jy - 1
         k = k + 180
@@ -255,6 +284,7 @@ defmodule Jalaali do
         jm = 7 + div(k, 30)
         jd = mod(k, 30) + 1
         {jy, jm, jd}
+
       true ->
         jy = jy - 1
         k = k + 179
@@ -267,7 +297,10 @@ defmodule Jalaali do
 
   @spec g2d({integer(), integer(), integer()}) :: integer()
   defp g2d({gy, gm, gd}) do
-    d = div((gy + div(gm - 8, 6) + 100_100) * 1461, 4) + div(153 * mod(gm + 9, 12) + 2, 5) + gd - 34_840_408
+    d =
+      div((gy + div(gm - 8, 6) + 100_100) * 1461, 4) + div(153 * mod(gm + 9, 12) + 2, 5) + gd -
+        34_840_408
+
     d - div(div(gy + 100_100 + div(gm - 8, 6), 100) * 3, 4) + 752
   end
 

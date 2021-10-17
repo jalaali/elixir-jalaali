@@ -42,7 +42,7 @@ defmodule Jalaali.Mixfile do
   defp deps do
     [
       {:ex_doc, "~> 0.24", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
 

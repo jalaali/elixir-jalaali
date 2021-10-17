@@ -32,7 +32,8 @@ defmodule Jalaali.Calendar do
   @doc """
   Returns day of week on a spesific set of year, month and day
   """
-  @spec day_of_week(integer, pos_integer, pos_integer, atom()) :: tuple() | {1 | 2 | 3 | 4 | 5 | 6 | 7, 1, 7}
+  @spec day_of_week(integer, pos_integer, pos_integer, atom()) ::
+          tuple() | {1 | 2 | 3 | 4 | 5 | 6 | 7, 1, 7}
   if Code.ensure_loaded?(Calendar.ISO) && function_exported?(Calendar.ISO, :day_of_week, 4) do
     def day_of_week(year, month, day, starting_on) do
       {:ok, date} = Date.new(year, month, day, __MODULE__)
@@ -71,7 +72,8 @@ defmodule Jalaali.Calendar do
   @doc """
   Converts the datetime (without time zone) into a human readable string.
   """
-  @spec naive_datetime_to_string(year(), month(), day(), hour(), minute(), second(), microsecond) :: nonempty_binary
+  @spec naive_datetime_to_string(year(), month(), day(), hour(), minute(), second(), microsecond) ::
+          nonempty_binary
   def naive_datetime_to_string(year, month, day, hour, minute, second, microsecond) do
     date_to_string(year, month, day) <> " " <> time_to_string(hour, minute, second, microsecond)
   end
@@ -79,8 +81,32 @@ defmodule Jalaali.Calendar do
   @doc """
   Convers the datetime (with time zone) into a human readable string.
   """
-  @spec datetime_to_string(integer(), integer(), integer(), integer(), integer(), integer(), {any, integer()}, binary, any, number, number) :: nonempty_binary
-  def datetime_to_string(year, month, day, hour, minute, second, microsecond, time_zone, zone_abbr, utc_offset, std_offset) do
+  @spec datetime_to_string(
+          integer(),
+          integer(),
+          integer(),
+          integer(),
+          integer(),
+          integer(),
+          {any, integer()},
+          binary,
+          any,
+          number,
+          number
+        ) :: nonempty_binary
+  def datetime_to_string(
+        year,
+        month,
+        day,
+        hour,
+        minute,
+        second,
+        microsecond,
+        time_zone,
+        zone_abbr,
+        utc_offset,
+        std_offset
+      ) do
     date_to_string(year, month, day) <>
       " " <>
       time_to_string(hour, minute, second, microsecond) <>
@@ -116,7 +142,15 @@ defmodule Jalaali.Calendar do
   @doc """
   Returns the `t:Calendar.iso_days` format of the specified date.
   """
-  @spec naive_datetime_to_iso_days(year(), month(), day(), hour(), minute(), second(), microsecond()) :: iso_days()
+  @spec naive_datetime_to_iso_days(
+          year(),
+          month(),
+          day(),
+          hour(),
+          minute(),
+          second(),
+          microsecond()
+        ) :: iso_days()
   def naive_datetime_to_iso_days(year, month, day, hour, minute, second, microsecond) do
     {Jalaali.jalaali_to_days(year, month, day),
      time_to_day_fraction(hour, minute, second, microsecond)}
@@ -125,7 +159,8 @@ defmodule Jalaali.Calendar do
   @doc """
   Converts the `t:Calendar.iso_days` format to the datetime format specified by this calendar.
   """
-  @spec naive_datetime_from_iso_days(iso_days()) :: {year(), month(), day(), hour(), minute(), second(), microsecond()}
+  @spec naive_datetime_from_iso_days(iso_days()) ::
+          {year(), month(), day(), hour(), minute(), second(), microsecond()}
   def naive_datetime_from_iso_days({days, day_fraction}) do
     {year, month, day} = Jalaali.days_to_jalaali(days)
     {hour, minute, second, microsecond} = time_from_day_fraction(day_fraction)
@@ -312,7 +347,6 @@ defmodule Jalaali.Calendar do
     hour = div(second, 3600)
     format_offset(total, hour, minute, format)
   end
-
 
   defp format_offset(total, hour, minute, :extended) do
     sign(total) <> zero_pad(hour, 2) <> ":" <> zero_pad(minute, 2)
