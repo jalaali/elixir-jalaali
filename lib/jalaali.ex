@@ -40,14 +40,14 @@ defmodule Jalaali do
 
   ## Exmaples
   ```elixir
-    iex> Jalaali.to_jalaali {2016, 12, 17}
-    {1395, 9, 27}
+  iex> Jalaali.to_jalaali {2016, 12, 17}
+  {1395, 9, 27}
 
-    iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
-    {{1395, 9, 27}, {11, 11, 11}}
+  iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
+  {{1395, 9, 27}, {11, 11, 11}}
 
-    iex> Jalaali.to_jalaali ~D[2016-12-17]
-    ~D[1395-09-27]
+  iex> Jalaali.to_jalaali ~D[2016-12-17]
+  ~D[1395-09-27]
   ```
   """
   @spec to_jalaali(tuple() | DateTime.t() | Date.t()) :: tuple() | DateTime.t() | Date.t()
@@ -74,14 +74,14 @@ defmodule Jalaali do
 
   ## Exmaples
   ```elixir
-    iex> Jalaali.to_gregorian {1395, 9, 27}
-    {2016, 12, 17}
+  iex> Jalaali.to_gregorian {1395, 9, 27}
+  {2016, 12, 17}
 
-    iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
-    {{1395, 9, 27}, {11, 11, 11}}
+  iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
+  {{1395, 9, 27}, {11, 11, 11}}
 
-    iex> Jalaali.to_gregorian ~D[1395-09-27]
-    ~D[2016-12-17]
+  iex> Jalaali.to_gregorian ~D[1395-09-27]
+  ~D[2016-12-17]
   ```
   """
   @spec to_gregorian(tuple() | DateTime.t() | Date.t()) :: tuple() | DateTime.t() | Date.t()
@@ -106,11 +106,11 @@ defmodule Jalaali do
 
   ## Examples
   ```elixir
-    iex> Jalaali.is_valid_jalaali_date {1395, 9, 27}
-    true
+  iex> Jalaali.is_valid_jalaali_date {1395, 9, 27}
+  true
 
-    iex> Jalaali.is_valid_jalaali_date {1395, 91, 27}
-    false
+  iex> Jalaali.is_valid_jalaali_date {1395, 91, 27}
+  false
   ```
   """
   @spec is_valid_jalaali_date(tuple()) :: boolean()
@@ -140,14 +140,14 @@ defmodule Jalaali do
 
   ## Examples
   ```elixir
-    iex> Jalaali.is_leap_jalaali_year(1395)
-    true
+  iex> Jalaali.is_leap_jalaali_year(1395)
+  true
 
-    iex> Jalaali.is_leap_jalaali_year(1396)
-    false
+  iex> Jalaali.is_leap_jalaali_year(1396)
+  false
 
-    iex> Jalaali.is_leap_jalaali_year(1394)
-    false
+  iex> Jalaali.is_leap_jalaali_year(1394)
+  false
   ```
   """
   @spec is_leap_jalaali_year(integer()) :: boolean()
@@ -160,17 +160,17 @@ defmodule Jalaali do
 
   ## Examples
   ```elixir
-    iex> Jalaali.jalaali_month_length(1395, 11)
-    30
+  iex> Jalaali.jalaali_month_length(1395, 11)
+  30
 
-    iex> Jalaali.jalaali_month_length(1395, 6)
-    31
+  iex> Jalaali.jalaali_month_length(1395, 6)
+  31
 
-    iex> Jalaali.jalaali_month_length(1394, 12)
-    29
+  iex> Jalaali.jalaali_month_length(1394, 12)
+  29
 
-    iex> Jalaali.jalaali_month_length(1395, 12)
-    30
+  iex> Jalaali.jalaali_month_length(1395, 12)
+  30
   ```
   """
   @spec jalaali_month_length(integer(), integer()) :: integer()
