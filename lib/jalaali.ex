@@ -39,14 +39,16 @@ defmodule Jalaali do
     - ex_dt: Date or DateTime to convert
 
   ## Exmaples
-    iex> Jalaali.to_jalaali {2016, 12, 17}
-    {1395, 9, 27}
+  ```elixir
+  iex> Jalaali.to_jalaali {2016, 12, 17}
+  {1395, 9, 27}
 
-    iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
-    {{1395, 9, 27}, {11, 11, 11}}
+  iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
+  {{1395, 9, 27}, {11, 11, 11}}
 
-    iex> Jalaali.to_jalaali ~D[2016-12-17]
-    ~D[1395-09-27]
+  iex> Jalaali.to_jalaali ~D[2016-12-17]
+  ~D[1395-09-27]
+  ```
   """
   @spec to_jalaali(tuple() | DateTime.t() | Date.t()) :: tuple() | DateTime.t() | Date.t()
   def to_jalaali({gy, gm, gd}) do
@@ -71,14 +73,16 @@ defmodule Jalaali do
     - ex_dt: Date or DateTime to convert
 
   ## Exmaples
-    iex> Jalaali.to_gregorian {1395, 9, 27}
-    {2016, 12, 17}
+  ```elixir
+  iex> Jalaali.to_gregorian {1395, 9, 27}
+  {2016, 12, 17}
 
-    iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
-    {{1395, 9, 27}, {11, 11, 11}}
+  iex> Jalaali.to_jalaali {{2016, 12, 17}, {11, 11, 11}}
+  {{1395, 9, 27}, {11, 11, 11}}
 
-    iex> Jalaali.to_gregorian ~D[1395-09-27]
-    ~D[2016-12-17]
+  iex> Jalaali.to_gregorian ~D[1395-09-27]
+  ~D[2016-12-17]
+  ```
   """
   @spec to_gregorian(tuple() | DateTime.t() | Date.t()) :: tuple() | DateTime.t() | Date.t()
   def to_gregorian({jy, jm, jd}) do
@@ -101,11 +105,13 @@ defmodule Jalaali do
     - arg1: is a tuple in shape of {jalaali_year, jalaali_month, jalaali_day}
 
   ## Examples
-    iex> Jalaali.is_valid_jalaali_date {1395, 9, 27}
-    true
+  ```elixir
+  iex> Jalaali.is_valid_jalaali_date {1395, 9, 27}
+  true
 
-    iex> Jalaali.is_valid_jalaali_date {1395, 91, 27}
-    false
+  iex> Jalaali.is_valid_jalaali_date {1395, 91, 27}
+  false
+  ```
   """
   @spec is_valid_jalaali_date(tuple()) :: boolean()
   def is_valid_jalaali_date?({jy, jm, jd}) do
@@ -133,14 +139,16 @@ defmodule Jalaali do
     - jy: Jalaali Year (-61 to 3177)
 
   ## Examples
-    iex> Jalaali.is_leap_jalaali_year(1395)
-    true
+  ```elixir
+  iex> Jalaali.is_leap_jalaali_year(1395)
+  true
 
-    iex> Jalaali.is_leap_jalaali_year(1396)
-    false
+  iex> Jalaali.is_leap_jalaali_year(1396)
+  false
 
-    iex> Jalaali.is_leap_jalaali_year(1394)
-    false
+  iex> Jalaali.is_leap_jalaali_year(1394)
+  false
+  ```
   """
   @spec is_leap_jalaali_year(integer()) :: boolean()
   def is_leap_jalaali_year(jy) do
@@ -151,17 +159,19 @@ defmodule Jalaali do
   Number of days in a given month in a Jalaali year.
 
   ## Examples
-    iex> Jalaali.jalaali_month_length(1395, 11)
-    30
+  ```elixir
+  iex> Jalaali.jalaali_month_length(1395, 11)
+  30
 
-    iex> Jalaali.jalaali_month_length(1395, 6)
-    31
+  iex> Jalaali.jalaali_month_length(1395, 6)
+  31
 
-    iex> Jalaali.jalaali_month_length(1394, 12)
-    29
+  iex> Jalaali.jalaali_month_length(1394, 12)
+  29
 
-    iex> Jalaali.jalaali_month_length(1395, 12)
-    30
+  iex> Jalaali.jalaali_month_length(1395, 12)
+  30
+  ```
   """
   @spec jalaali_month_length(integer(), integer()) :: integer()
   def jalaali_month_length(jy, jm) do

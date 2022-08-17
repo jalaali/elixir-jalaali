@@ -171,10 +171,12 @@ defmodule Jalaali.Calendar do
   Returns the normalized day fraction of the specified time.
 
   ## Examples
-      iex> Calendar.ISO.time_to_day_fraction(0, 0, 0, {0, 6})
-      {0, 86400000000}
-      iex> Calendar.ISO.time_to_day_fraction(12, 34, 56, {123, 6})
-      {45296000123, 86400000000}
+  ```elixir
+  iex> Calendar.ISO.time_to_day_fraction(0, 0, 0, {0, 6})
+  {0, 86400000000}
+  iex> Calendar.ISO.time_to_day_fraction(12, 34, 56, {123, 6})
+  {45296000123, 86400000000}
+  ```
 
   """
 
@@ -194,10 +196,12 @@ defmodule Jalaali.Calendar do
   Converts a day fraction to this Calendar's representation of time.
 
   ## Examples
-      iex> Calendar.ISO.time_from_day_fraction({1,2})
-      {12, 0, 0, {0, 6}}
-      iex> Calendar.ISO.time_from_day_fraction({13,24})
-      {13, 0, 0, {0, 6}}
+  ```elixir
+  iex> Calendar.ISO.time_from_day_fraction({1,2})
+  {12, 0, 0, {0, 6}}
+  iex> Calendar.ISO.time_from_day_fraction({13,24})
+  {13, 0, 0, {0, 6}}
+  ```
 
   """
   @spec time_from_day_fraction(day_fraction()) :: {hour(), minute(), second(), microsecond()}
@@ -236,15 +240,16 @@ defmodule Jalaali.Calendar do
   era for those years less than 1 defined as era `0`.
 
   ## Examples
-
-      iex> Jalaali.Calendar.year_of_era(1)
-      {1, 1}
-      iex> Jalaali.Calendar.year_of_era(1398)
-      {1398, 1}
-      iex> Jalaali.Calendar.year_of_era(0)
-      {1, 0}
-      iex> Jalaali.Calendar.year_of_era(-1)
-      {2, 0}
+  ```elixir
+  iex> Jalaali.Calendar.year_of_era(1)
+  {1, 1}
+  iex> Jalaali.Calendar.year_of_era(1398)
+  {1398, 1}
+  iex> Jalaali.Calendar.year_of_era(0)
+  {1, 0}
+  iex> Jalaali.Calendar.year_of_era(-1)
+  {2, 0}
+  ```
   """
   @spec year_of_era(year) :: {year(), era :: 0..1}
   def year_of_era(year) when is_integer(year) and year > 0, do: {year, 1}
@@ -257,10 +262,10 @@ defmodule Jalaali.Calendar do
   It's always 12 for Jalaali calendar system.
 
   ## Examples
-
-      iex> Jalaali.Calendar.months_in_year(1398)
-      12
-
+  ```elixir
+  iex> Jalaali.Calendar.months_in_year(1398)
+  12
+  ```
   """
   @spec months_in_year(year) :: 12
   def months_in_year(_year), do: @months_in_year
@@ -268,15 +273,18 @@ defmodule Jalaali.Calendar do
   @doc """
   Calculates the quarter of the year from the given `year`, `month`, and `day`.
   It is an integer from 1 to 4.
+
   ## Examples
-      iex> Jalaali.Calendar.quarter_of_year(1398, 1, 31)
-      1
-      iex> Jalaali.Calendar.quarter_of_year(123, 4, 3)
-      2
-      iex> Jalaali.Calendar.quarter_of_year(-61, 9, 31)
-      3
-      iex> Jalaali.Calendar.quarter_of_year(2678, 12, 28)
-      4
+  ```elixir
+  iex> Jalaali.Calendar.quarter_of_year(1398, 1, 31)
+  1
+  iex> Jalaali.Calendar.quarter_of_year(123, 4, 3)
+  2
+  iex> Jalaali.Calendar.quarter_of_year(-61, 9, 31)
+  3
+  iex> Jalaali.Calendar.quarter_of_year(2678, 12, 28)
+  4
+  ```
   """
   @spec quarter_of_year(year, month, day) :: 1..4
   def quarter_of_year(year, month, day)
@@ -287,16 +295,18 @@ defmodule Jalaali.Calendar do
   @doc """
   Calculates the day and era from the given `year`, `month`, and `day`.
   ## Examples
-      iex> Jalaali.Calendar.day_of_era(0, 1, 1)
-      {366, 0}
-      iex> Jalaali.Calendar.day_of_era(1, 1, 1)
-      {1, 1}
-      iex> Jalaali.Calendar.day_of_era(0, 12, 30)
-      {1, 0}
-      iex> Jalaali.Calendar.day_of_era(0, 12, 29)
-      {2, 0}
-      iex> Jalaali.Calendar.day_of_era(-1, 12, 29)
-      {367, 0}
+  ```elixir
+  iex> Jalaali.Calendar.day_of_era(0, 1, 1)
+  {366, 0}
+  iex> Jalaali.Calendar.day_of_era(1, 1, 1)
+  {1, 1}
+  iex> Jalaali.Calendar.day_of_era(0, 12, 30)
+  {1, 0}
+  iex> Jalaali.Calendar.day_of_era(0, 12, 29)
+  {2, 0}
+  iex> Jalaali.Calendar.day_of_era(-1, 12, 29)
+  {367, 0}
+  ```
   """
   @spec day_of_era(year, month, day) :: {day :: pos_integer(), era :: 0..1}
   def day_of_era(year, month, day)
@@ -316,13 +326,14 @@ defmodule Jalaali.Calendar do
   It is an integer from 1 to 366.
 
   ## Examples
-
-      iex> Jalaali.Calendar.day_of_year(1398, 1, 31)
-      31
-      iex> Jalaali.Calendar.day_of_year(-61, 2, 1)
-      32
-      iex> Jalaali.Calendar.day_of_year(1397, 2, 28)
-      59
+  ```elixir
+  iex> Jalaali.Calendar.day_of_year(1398, 1, 31)
+  31
+  iex> Jalaali.Calendar.day_of_year(-61, 2, 1)
+  32
+  iex> Jalaali.Calendar.day_of_year(1397, 2, 28)
+  59
+  ```
 
   """
   @spec day_of_year(year, month, day) :: 1..366
