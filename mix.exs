@@ -1,7 +1,7 @@
 defmodule Jalaali.Mixfile do
   use Mix.Project
 
-  @version "0.4.0"
+  @version "0.4.1"
 
   def project do
     [
@@ -23,14 +23,10 @@ defmodule Jalaali.Mixfile do
     ]
   end
 
-  def application do
-    [applications: [:logger]]
-  end
-
   defp deps do
     [
-      {:ex_doc, "~> 0.28.4", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false}
+      {:ex_doc, "~> 0.29", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.3", only: [:dev, :test], runtime: false}
     ]
   end
 
