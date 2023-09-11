@@ -1,6 +1,6 @@
 # Elixir Jalaali calendar
 ![Build Status](https://github.com/jalaali/elixir-jalaali/actions/workflows/ci.yaml/badge.svg)
-[![Hex.pm](https://img.shields.io/badge/hex-0.4.0-blue.svg)](https://hex.pm/packages/jalaali)
+[![Hex.pm](https://img.shields.io/hexpm/v/jalaali.svg)](https://hex.pm/packages/jalaali)
 [![GitHub license](https://img.shields.io/badge/license-MIT-green.svg)](https://raw.githubusercontent.com/jalaali/elixir-jalaali/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/jalaali/elixir-jalaali.svg)](https://github.com/jalaali/elixir-jalaali/issues)
 
